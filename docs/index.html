@@ -4,12 +4,33 @@
   <meta charset="UTF-8">
   <title>VPN CAPES para Linux</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
+    :root {
+      --bg: #f4f6f9;
+      --text: #333;
+      --card: #fff;
+      --primary: #003366;
+      --primary-hover: #0055aa;
+      --shadow: rgba(0,0,0,0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --text: #e0e0e0;
+        --card: #2c2c2c;
+        --primary: #4ea3ff;
+        --primary-hover: #82c4ff;
+        --shadow: rgba(255,255,255,0.05);
+      }
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
-      color: #333;
+      background-color: var(--bg);
+      color: var(--text);
     }
 
     /* MENU LATERAL */
@@ -19,14 +40,16 @@
       position: fixed;
       top: 0;
       left: 0;
-      background-color: #003366;
+      background-color: var(--primary);
       padding-top: 20px;
       color: white;
+      box-shadow: 2px 0 10px var(--shadow);
     }
 
     .sidebar h2 {
       text-align: center;
       margin-bottom: 20px;
+      font-size: 22px;
     }
 
     .sidebar a {
@@ -35,10 +58,11 @@
       color: white;
       text-decoration: none;
       font-size: 16px;
+      transition: 0.2s;
     }
 
     .sidebar a:hover {
-      background-color: #0055aa;
+      background-color: var(--primary-hover);
     }
 
     /* CONTEÚDO PRINCIPAL */
@@ -55,18 +79,19 @@
     img.banner {
       max-width: 100%;
       border-radius: 8px;
+      box-shadow: 0 0 10px var(--shadow);
     }
 
     section {
-      background: white;
+      background: var(--card);
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px var(--shadow);
     }
 
     h2 {
-      color: #003366;
+      color: var(--primary);
     }
 
     pre {
@@ -76,11 +101,22 @@
       overflow-x: auto;
     }
 
+    @media (prefers-color-scheme: dark) {
+      pre {
+        background-color: #111;
+      }
+    }
+
     footer {
       text-align: center;
       padding: 20px;
       color: #666;
       margin-top: 40px;
+    }
+
+    a {
+      color: var(--primary);
+      font-weight: bold;
     }
 
     /* RESPONSIVO */
@@ -100,12 +136,12 @@
 
 <div class="sidebar">
   <h2>VPN CAPES</h2>
-  <a href="#instalacao">Instalação</a>
-  <a href="#conectar">Conectar</a>
-  <a href="#desconectar">Desconectar</a>
-  <a href="#gui">Interface Gráfica</a>
-  <a href="#cert">Detectar Certificado</a>
-  <a href="#docs">Documentação</a>
+  <a href="#instalacao">🚀 Instalação</a>
+  <a href="#conectar">🔌 Conectar</a>
+  <a href="#desconectar">🔌 Desconectar</a>
+  <a href="#gui">🖥️ Interface Gráfica</a>
+  <a href="#cert">🔍 Certificado</a>
+  <a href="#docs">📄 Documentação</a>
 </div>
 
 <div class="content">
