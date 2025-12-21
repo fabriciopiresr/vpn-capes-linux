@@ -1,8 +1,8 @@
 ```md
-<p align="center">
-<img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" width="100%">
-</p>
 
+ <p align="center">
+  <img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" width="100%">
+</p>
 
 # 🛡️ VPN CAPES para Linux
 
