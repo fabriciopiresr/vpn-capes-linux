@@ -1,20 +1,33 @@
-Fabrício, relaxa — isso aqui é simples.  
-Você deve copiar **EXATAMENTE tudo entre as três crases que eu te passei**, ou seja, **todo o conteúdo do arquivo inteiro**, do começo ao fim.
-
-Aqui está novamente o **index.md completo**, pronto para copiar e colar **do início até o fim**:
+Maravilha, Fabrício! Aqui está o que preparei para você:
 
 ---
 
-# ✅ **COPIE TUDO DA PRIMEIRA LINHA ATÉ A ÚLTIMA**
+## ✅ Site GitHub Pages com layout bonito
+
+Vamos deixar seu site com um visual mais profissional, usando Markdown bem formatado, emojis, links clicáveis e seções organizadas.
+
+### 📄 Novo conteúdo para `docs/index.md`
+
+No terminal:
+
+```bash
+nano docs/index.md
+```
+
+Cole **exatamente** o conteúdo abaixo:
 
 ```md
-# VPN CAPES para Linux
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" width="100%">
+</p>
 
-Bem-vindo ao site oficial do projeto **VPN CAPES para Linux**.
+# 🛡️ VPN CAPES para Linux
 
-Este projeto permite usar a VPN da CAPES em qualquer distribuição Linux moderna usando **chrootvpn + SNX**.
+Este projeto permite usar a VPN da CAPES em qualquer distribuição Linux moderna (Ubuntu, Debian, Mint, Fedora, Rocky, AlmaLinux, Pop!_OS, Zorin, etc.) usando **chrootvpn + SNX**.
 
-## ✅ Instalação rápida
+---
+
+## 🚀 Instalação rápida
 
 ```bash
 git clone https://github.com/fabriciopiresr/vpn-capes-linux.git
@@ -23,27 +36,82 @@ chmod +x install-all.sh
 ./install-all.sh
 ```
 
-## ✅ Conectar
+No menu, escolha:
+
+```
+1) Instalar VPN CAPES
+```
+
+---
+
+## 🔌 Conectar
 
 ```bash
 vpn-capes-up
 ```
 
-## ✅ Desconectar
+---
+
+## 🔌 Desconectar
 
 ```bash
 vpn-capes-down
 ```
 
-## ✅ Interface gráfica
+---
+
+## 🖥️ Interface gráfica
 
 ```bash
 gui-vpn-capes.sh
 ```
 
-## ✅ Documentação completa
+---
 
-Acesse o README no GitHub para instruções detalhadas.
+## 🔍 Detectar certificado
+
+```bash
+detect-cert.sh
 ```
 
+---
 
+## 🧹 Remover VPN
+
+```bash
+./install-all.sh
+```
+
+Escolha:
+
+```
+3) Remover VPN CAPES
+```
+
+---
+
+## 📦 Gerar pacotes (.deb, .rpm)
+
+```bash
+./build-all-packages.sh
+```
+
+Arquivos gerados ficam em `dist/`.
+
+---
+
+## 📄 Documentação completa
+
+Acesse o [README no GitHub](https://github.com/fabriciopiresr/vpn-capes-linux#readme) para instruções detalhadas.
+
+---
+
+## 🧑‍💻 Repositório
+
+🔗 [github.com/fabriciopiresr/vpn-capes-linux](https://github.com/fabriciopiresr/vpn-capes-linux)
+
+---
+
+## 📜 Licença
+
+MIT License.
