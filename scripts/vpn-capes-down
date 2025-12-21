@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+VPN_SCRIPT="/usr/local/bin/vpn.sh"
+VPN_CONF_FILE="/etc/systemd/resolved.conf.d/vpn.conf"
+
+set -e
+
+echo "[vpn-capes-down] Desconectando VPN..."
+sudo "$VPN_SCRIPT" disconnect || true
+sudo "$VPN_SCRIPT" stop || true
+
+if [ -f "$VPN_CONF_FILE" ]; then
+    echo "[vpn-capes-down] Removendo DNS CAPES..."
+    sudo rm -f "$VPN_CONF_FILE"
+    sudo systemctl restart systemd-resolved
+fi
+
+echo "[vpn-capes-down] VPN e DNS desativados."

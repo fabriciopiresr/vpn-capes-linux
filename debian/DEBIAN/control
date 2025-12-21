@@ -1,0 +1,8 @@
+Package: vpn-capes-fedora
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Fabrício <fabricio@capes.gov.br>
+Description: VPN CAPES for Fedora/Ubuntu using chrootvpn + SNX
+Depends: wget, curl, git, pandoc, zenity

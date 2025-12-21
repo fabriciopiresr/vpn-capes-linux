@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+VPN_SCRIPT="/usr/local/bin/vpn.sh"
+VPN_CONF_DIR="/etc/systemd/resolved.conf.d"
+VPN_CONF_FILE="$VPN_CONF_DIR/vpn.conf"
+
+set -e
+
+echo "[vpn-capes-up] Subindo chrootvpn..."
+sudo "$VPN_SCRIPT" start
+
+echo "[vpn-capes-up] Configurando DNS da CAPES..."
+sudo mkdir -p "$VPN_CONF_DIR"
+sudo tee "$VPN_CONF_FILE" > /dev/null <<DNS
+[Resolve]
+DNS=172.19.100.16 172.19.100.17
+Domains=~fc.capes.gov.br
+DNSStubListener=no
+DNS
+
+sudo systemctl restart systemd-resolved
+
+echo "[vpn-capes-up] Abrindo portal da CAPES..."
+firefox "https://acessovpn.capes.gov.br" >/dev/null 2>&1 &
+
+echo "[vpn-capes-up] Agora faça login no portal, selecione o certificado e clique em Conectar."

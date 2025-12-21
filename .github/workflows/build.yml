@@ -1,0 +1,35 @@
+name: Build VPN CAPES packages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y dpkg-dev
+
+      - name: Validate project structure
+        run: |
+          chmod +x validate-project.sh || true
+          ./validate-project.sh
+
+      - name: Build .deb package
+        run: |
+          chmod +x build-all-packages.sh
+          ./build-all-packages.sh
+
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vpn-capes-build
+          path: dist/
