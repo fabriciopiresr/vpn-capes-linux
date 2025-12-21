@@ -6,56 +6,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background-color: #f4f6f9;
-      margin: 0;
-      padding: 0;
       color: #333;
     }
-    header {
+
+    /* MENU LATERAL */
+    .sidebar {
+      height: 100%;
+      width: 240px;
+      position: fixed;
+      top: 0;
+      left: 0;
       background-color: #003366;
+      padding-top: 20px;
       color: white;
-      padding: 30px 20px;
-      text-align: center;
     }
-    img.banner {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
+
+    .sidebar h2 {
+      text-align: center;
       margin-bottom: 20px;
     }
-    section {
+
+    .sidebar a {
+      padding: 12px 20px;
+      display: block;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .sidebar a:hover {
+      background-color: #0055aa;
+    }
+
+    /* CONTEÚDO PRINCIPAL */
+    .content {
+      margin-left: 260px;
       padding: 20px;
-      max-width: 900px;
-      margin: auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    img.banner {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    section {
       background: white;
-      margin-top: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
     h2 {
       color: #003366;
     }
+
     pre {
       background-color: #eee;
       padding: 12px;
       border-radius: 6px;
       overflow-x: auto;
     }
+
     footer {
       text-align: center;
       padding: 20px;
-      margin-top: 40px;
       color: #666;
-      font-size: 0.9em;
+      margin-top: 40px;
     }
-    a {
-      color: #003366;
-      font-weight: bold;
+
+    /* RESPONSIVO */
+    @media (max-width: 800px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .content {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
 <body>
+
+<div class="sidebar">
+  <h2>VPN CAPES</h2>
+  <a href="#instalacao">Instalação</a>
+  <a href="#conectar">Conectar</a>
+  <a href="#desconectar">Desconectar</a>
+  <a href="#gui">Interface Gráfica</a>
+  <a href="#cert">Detectar Certificado</a>
+  <a href="#docs">Documentação</a>
+</div>
+
+<div class="content">
 
 <header>
   <img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" class="banner" alt="Banner VPN CAPES">
@@ -63,25 +116,35 @@
   <p>Conexão segura para servidores internos da CAPES</p>
 </header>
 
-<section>
+<section id="instalacao">
   <h2>🚀 Instalação rápida</h2>
   <pre><code>git clone https://github.com/fabriciopiresr/vpn-capes-linux.git
 cd vpn-capes-linux
 chmod +x install-all.sh
 ./install-all.sh</code></pre>
+</section>
 
+<section id="conectar">
   <h2>🔌 Conectar</h2>
   <pre><code>vpn-capes-up</code></pre>
+</section>
 
+<section id="desconectar">
   <h2>🔌 Desconectar</h2>
   <pre><code>vpn-capes-down</code></pre>
+</section>
 
+<section id="gui">
   <h2>🖥️ Interface gráfica</h2>
   <pre><code>gui-vpn-capes.sh</code></pre>
+</section>
 
+<section id="cert">
   <h2>🔍 Detectar certificado</h2>
   <pre><code>detect-cert.sh</code></pre>
+</section>
 
+<section id="docs">
   <h2>📄 Documentação completa</h2>
   <p>Acesse o <a href="https://github.com/fabriciopiresr/vpn-capes-linux" target="_blank">repositório no GitHub</a> para instruções detalhadas.</p>
 </section>
@@ -89,6 +152,8 @@ chmod +x install-all.sh
 <footer>
   &copy; 2025 Fabrício Pires — Projeto VPN CAPES Linux
 </footer>
+
+</div>
 
 </body>
 </html>
