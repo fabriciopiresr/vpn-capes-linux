@@ -1,25 +1,8 @@
-Maravilha, Fabrício! Aqui está o que preparei para você:
-
----
-
-## ✅ Site GitHub Pages com layout bonito
-
-Vamos deixar seu site com um visual mais profissional, usando Markdown bem formatado, emojis, links clicáveis e seções organizadas.
-
-### 📄 Novo conteúdo para `docs/index.md`
-
-No terminal:
-
-```bash
-nano docs/index.md
-```
-
-Cole **exatamente** o conteúdo abaixo:
-
 ```md
 <p align="center">
   <img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" width="100%">
 </p>
+
 
 # 🛡️ VPN CAPES para Linux
 
