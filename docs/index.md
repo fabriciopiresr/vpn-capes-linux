@@ -1,6 +1,6 @@
 ```md
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" width="100%">
+<img src="https://raw.githubusercontent.com/fabriciopiresr/vpn-capes-linux/main/assets/banner.png" width="100%">
 </p>
 
 
