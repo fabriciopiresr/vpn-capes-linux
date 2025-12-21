@@ -1,0 +1,24 @@
+name: Release VPN CAPES Linux
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build packages
+        run: |
+          chmod +x build-all-packages.sh
+          ./build-all-packages.sh
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
