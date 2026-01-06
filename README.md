@@ -1,17 +1,18 @@
-## ✅ README.md COMPLETO (PRONTO PARA COLAR)
-
-```md
 # VPN CAPES para Linux
 
-Este projeto permite usar a VPN da CAPES em qualquer distribuição Linux moderna (Ubuntu, Debian, Mint, Fedora, Rocky, AlmaLinux, Pop!_OS, Zorin, etc.) usando **chrootvpn + SNX**.
+Este projeto permite utilizar a **VPN da CAPES** em distribuições Linux modernas
+(Fedora, Ubuntu, Debian, Pop!_OS, Zorin, Mint, Rocky, AlmaLinux, etc.)
+de forma **estável e funcional**, resolvendo problemas clássicos do cliente
+**Check Point SNX no Linux**.
 
-✅ Instalação automática  
-✅ Conexão com 1 comando  
+✅ Instalação automatizada  
+✅ Conexão e desconexão com um comando  
 ✅ Interface gráfica (GUI)  
-✅ Detecta certificado automaticamente  
-✅ Funciona em qualquer distro  
-✅ Pacotes .deb e .rpm  
-✅ Scripts de build e validação  
+✅ Detecção automática de certificado  
+✅ Correção definitiva de DNS e rotas  
+✅ Compatível com systemd-resolved  
+✅ Funciona em qualquer distro moderna  
+✅ Geração de pacotes `.deb` e `.rpm`  
 
 ---
 
@@ -24,161 +25,187 @@ git clone https://github.com/fabriciopiresr/vpn-capes-linux.git
 cd vpn-capes-linux
 chmod +x install-all.sh
 ./install-all.sh
-```
+No menu, escolha:
 
-### No menu, escolha:
-
-```
+objectivec
+Copiar código
 1) Instalar VPN CAPES
-```
-
 O instalador irá:
 
-- Instalar dependências (wget, curl, git, pandoc, zenity)
-- Baixar e instalar o `vpn.sh` (chrootvpn)
-- Preparar o ambiente para o SNX
-- Copiar os scripts de conexão
-- Configurar DNS interno da CAPES
+Instalar dependências necessárias
 
----
+Instalar o chrootvpn
 
-## 🔌 Como conectar à VPN
+Preparar o ambiente para o SNX
 
-Depois da instalação:
+Copiar os scripts de conexão
 
-```bash
+Integrar corretamente com o sistema de DNS e rotas
+
+🔌 Como conectar à VPN
+Após a instalação:
+
+bash
+Copiar código
 vpn-capes-up
-```
+O script irá:
 
-Isso irá:
+Iniciar o chrootvpn
 
-- Iniciar o serviço da VPN (chroot + SNX)
-- Configurar o DNS interno da CAPES
-- Abrir o portal no Firefox:  
-  [https://acessovpn.capes.gov.br](https://acessovpn.capes.gov.br)
+Configurar corretamente DNS e rota padrão
+
+Abrir automaticamente o portal da CAPES no navegador
 
 No portal:
 
-1. Selecione o certificado CAPES (.p12 ou .pfx)  
-2. Digite a senha  
-3. Faça login (se solicitado)  
-4. Clique em **Connect**
+Selecione o certificado (.p12 ou .pfx)
 
----
+Digite a senha do certificado
 
-## 🔌 Como desconectar
+Faça login (se solicitado)
 
-```bash
+Clique em Connect
+
+🔌 Como desconectar
+bash
+Copiar código
 vpn-capes-down
-```
+Isso irá:
 
-Isso:
+Encerrar o SNX
 
-- Encerra o SNX  
-- Para o chrootvpn  
-- Remove o DNS interno
+Parar o chrootvpn
 
----
+Restaurar DNS e rotas originais do sistema
 
-## 🖥️ Interface gráfica (GUI)
+🖥️ Interface gráfica (GUI)
+Para abrir a interface gráfica:
 
-```bash
+bash
+Copiar código
 gui-vpn-capes.sh
-```
+A interface permite:
 
-Com ela você pode:
+Conectar (UP)
 
-- Conectar (UP)  
-- Desconectar (DOWN)  
-- Iniciar/Parar serviço  
-- Detectar certificado  
-- Abrir o repositório / site
+Desconectar (DOWN)
 
----
+Detectar certificado automaticamente
 
-## 🔍 Detectar certificado automaticamente
+Abrir o site da CAPES
 
-```bash
+Acessar o repositório do projeto
+
+🔍 Detecção automática de certificado
+bash
+Copiar código
 detect-cert.sh
-```
-
 O script:
 
-- Procura certificados no seu HOME  
-- Mostra uma lista numerada  
-- Você escolhe  
-- O caminho é salvo em:  
-  `~/.config/vpn-capes/cert-path`
+Procura certificados no seu diretório HOME
 
----
+Exibe uma lista numerada
 
-## 🧹 Remover a VPN
+Permite selecionar o certificado desejado
 
-```bash
-./install-all.sh
-```
+Salva o caminho automaticamente
 
-Escolha:
+O caminho é armazenado em:
 
-```
-3) Remover VPN CAPES
-```
+lua
+Copiar código
+~/.config/vpn-capes/cert-path
+🛠️ Troubleshooting — Conecta mas não navega (problema clássico)
+❌ Sintoma
+A VPN conecta com sucesso (portal mostra “Connected”), mas:
 
-Isso remove:
+sistemas internos não abrem
 
-- chrootvpn / SNX  
-- `vpn.sh`  
-- Scripts `vpn-capes-up`, `vpn-capes-down`, `detect-cert.sh`  
-- DNS interno da CAPES
+sites internos não resolvem (ex: redmine.capes.gov.br)
 
----
+parece que a internet “caiu” após conectar
 
-## 📦 Gerar pacotes (.deb, .rpm, etc.)
+✅ Causa
+Este é um problema clássico do cliente Check Point (SNX) no Linux.
 
-```bash
+Em sistemas modernos:
+
+o SNX não injeta DNS corretamente
+
+o túnel (tunsnx) não vira rota padrão
+
+o sistema continua usando o DNS do Wi-Fi
+
+👉 Não é erro de certificado, login ou senha.
+
+✅ Solução aplicada neste projeto
+Este projeto corrige o problema da forma correta:
+
+DNS aplicado somente à interface da VPN (tunsnx)
+
+Túnel marcado como rota padrão
+
+Uso de systemd-resolved (resolvectl)
+
+Sem editar /etc/resolv.conf
+
+Sem reiniciar serviços do sistema
+
+Tudo é revertido automaticamente ao desconectar.
+
+🔍 Verificação manual
+Com a VPN conectada:
+
+bash
+Copiar código
+resolvectl status
+Você deve ver algo como:
+
+nginx
+Copiar código
+Link (tunsnx)
+  Default Route: yes
+  DNS Servers: 172.19.100.16 172.19.100.17
+Teste DNS interno:
+
+bash
+Copiar código
+nslookup redmine.capes.gov.br
+📦 Geração de pacotes (.deb / .rpm)
+bash
+Copiar código
 chmod +x build-all-packages.sh
 ./build-all-packages.sh
-```
+Os pacotes gerados ficam em:
 
-Os arquivos gerados ficam em:
-
-```
+Copiar código
 dist/
-```
-
----
-
-## 🧪 Validar se o projeto está íntegro
-
-```bash
+🧪 Validação do projeto
+bash
+Copiar código
 chmod +x validate-project.sh
 ./validate-project.sh
-```
-
----
-
-## 📂 Estrutura do projeto
-
-```
+📂 Estrutura do projeto
+pgsql
+Copiar código
 vpn-capes-linux/
- ├── install-all.sh          # Instalador e gerenciador
- ├── build-all-packages.sh   # Gera pacotes (.deb, .rpm, etc.)
- ├── publish-release.sh      # Publica releases no GitHub (via gh)
- ├── setup-project.sh        # Script de setup (interno)
- ├── validate-project.sh     # Valida estrutura e permissões
+ ├── install-all.sh
+ ├── build-all-packages.sh
+ ├── publish-release.sh
+ ├── setup-project.sh
+ ├── validate-project.sh
  ├── scripts/
- │    ├── vpn-capes-up       # Conectar VPN
- │    ├── vpn-capes-down     # Desconectar VPN
- │    ├── detect-cert.sh     # Detectar certificado automaticamente
- │    └── gui-vpn-capes.sh   # Interface gráfica (Zenity)
- ├── debian/                 # Arquivos para pacote .deb
- ├── rpm/                    # Arquivos para pacote .rpm
- ├── dist/                   # Saída dos builds (.deb, .rpm, etc.)
- └── .github/workflows/      # CI (build automático no GitHub Actions)
-```
+ │    ├── vpn-capes-up
+ │    ├── vpn-capes-down
+ │    ├── detect-cert.sh
+ │    └── gui-vpn-capes.sh
+ ├── debian/
+ ├── rpm/
+ ├── dist/
+ └── .github/workflows/
+⚠️ Aviso legal
+Este projeto não é oficial e não possui vínculo com a CAPES.
+É uma iniciativa independente para permitir o uso da VPN em Linux moderno.
 
----
-
-## 📄 Licença
-
+📄 Licença
 MIT License.
