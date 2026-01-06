@@ -1,26 +1,31 @@
 #!/usr/bin/env bash
 
-VPN_SCRIPT="/usr/local/bin/vpn.sh"
-VPN_CONF_DIR="/etc/systemd/resolved.conf.d"
-VPN_CONF_FILE="$VPN_CONF_DIR/vpn.conf"
-
 set -e
+
+VPN_SCRIPT="/usr/local/bin/vpn.sh"
+IFACE="tunsnx"
+
+DNS_CAPES=(
+  172.19.100.16
+  172.19.100.17
+)
 
 echo "[vpn-capes-up] Subindo chrootvpn..."
 sudo "$VPN_SCRIPT" start
 
-echo "[vpn-capes-up] Configurando DNS da CAPES..."
-sudo mkdir -p "$VPN_CONF_DIR"
-sudo tee "$VPN_CONF_FILE" > /dev/null <<DNS
-[Resolve]
-DNS=172.19.100.16 172.19.100.17
-Domains=~fc.capes.gov.br
-DNSStubListener=no
-DNS
+echo "[vpn-capes-up] Aplicando DNS e rota padrão da CAPES..."
 
-sudo systemctl restart systemd-resolved
+sudo resolvectl dns "$IFACE" "${DNS_CAPES[@]}"
+sudo resolvectl domain "$IFACE" "~fc.capes.gov.br"
+sudo resolvectl default-route "$IFACE" yes
+
+# Impede que o Wi-Fi sobrescreva a rota
+ACTIVE_WIFI=$(nmcli -t -f DEVICE,TYPE,STATE dev | awk -F: '$2=="wifi" && $3=="connected"{print $1}')
+if [ -n "$ACTIVE_WIFI" ]; then
+  sudo resolvectl default-route "$ACTIVE_WIFI" no
+fi
 
 echo "[vpn-capes-up] Abrindo portal da CAPES..."
 firefox "https://acessovpn.capes.gov.br" >/dev/null 2>&1 &
 
-echo "[vpn-capes-up] Agora faça login no portal, selecione o certificado e clique em Conectar."
+echo "[vpn-capes-up] Faça login no portal, selecione o certificado e clique em Conectar."

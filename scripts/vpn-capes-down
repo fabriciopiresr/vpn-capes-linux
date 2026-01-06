@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
-VPN_SCRIPT="/usr/local/bin/vpn.sh"
-VPN_CONF_FILE="/etc/systemd/resolved.conf.d/vpn.conf"
-
 set -e
 
+VPN_SCRIPT="/usr/local/bin/vpn.sh"
+IFACE="tunsnx"
+
 echo "[vpn-capes-down] Desconectando VPN..."
+
 sudo "$VPN_SCRIPT" disconnect || true
 sudo "$VPN_SCRIPT" stop || true
 
-if [ -f "$VPN_CONF_FILE" ]; then
-    echo "[vpn-capes-down] Removendo DNS CAPES..."
-    sudo rm -f "$VPN_CONF_FILE"
-    sudo systemctl restart systemd-resolved
+echo "[vpn-capes-down] Revertendo DNS e rotas..."
+
+sudo resolvectl revert "$IFACE"
+
+# Restaura Wi-Fi como rota padrão (se existir)
+ACTIVE_WIFI=$(nmcli -t -f DEVICE,TYPE,STATE dev | awk -F: '$2=="wifi" && $3=="connected"{print $1}')
+if [ -n "$ACTIVE_WIFI" ]; then
+  sudo resolvectl default-route "$ACTIVE_WIFI" yes
 fi
 
-echo "[vpn-capes-down] VPN e DNS desativados."
+echo "[vpn-capes-down] VPN e DNS desativados com sucesso."
