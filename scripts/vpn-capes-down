@@ -3,7 +3,6 @@
 set -e
 
 VPN_SCRIPT="/usr/local/bin/vpn.sh"
-IFACE="tunsnx"
 
 echo "[vpn-capes-down] Desconectando VPN..."
 
@@ -11,13 +10,15 @@ sudo "$VPN_SCRIPT" disconnect || true
 sudo "$VPN_SCRIPT" stop || true
 
 echo "[vpn-capes-down] Revertendo DNS e rotas..."
+sudo resolvectl revert tunsnx
 
-sudo resolvectl revert "$IFACE"
-
-# Restaura Wi-Fi como rota padrão (se existir)
+# Restaura Wi-Fi como rota padrão
 ACTIVE_WIFI=$(nmcli -t -f DEVICE,TYPE,STATE dev | awk -F: '$2=="wifi" && $3=="connected"{print $1}')
 if [ -n "$ACTIVE_WIFI" ]; then
   sudo resolvectl default-route "$ACTIVE_WIFI" yes
 fi
 
-echo "[vpn-capes-down] VPN e DNS desativados com sucesso."
+# Fecha apenas o Firefox do perfil VPN
+pkill -f "firefox.*-P vpn" || true
+
+echo "[vpn-capes-down] VPN encerrada com sucesso."

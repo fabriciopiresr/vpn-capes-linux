@@ -3,29 +3,34 @@
 set -e
 
 VPN_SCRIPT="/usr/local/bin/vpn.sh"
-IFACE="tunsnx"
-
-DNS_CAPES=(
-  172.19.100.16
-  172.19.100.17
-)
+WATCHER="/usr/local/bin/vpn-capes-watch.sh"
+EXT_ID="dash2dock-lite@icedman.github.com"
+PORTAL_URL="https://acessovpn.capes.gov.br"
 
 echo "[vpn-capes-up] Subindo chrootvpn..."
 sudo "$VPN_SCRIPT" start
 
-echo "[vpn-capes-up] Aplicando DNS e rota padrão da CAPES..."
+echo "[vpn-capes-up] Aguardando login no portal (DNS será aplicado automaticamente)..."
 
-sudo resolvectl dns "$IFACE" "${DNS_CAPES[@]}"
-sudo resolvectl domain "$IFACE" "~fc.capes.gov.br"
-sudo resolvectl default-route "$IFACE" yes
+# Inicia watcher em background
+sudo "$WATCHER" &
 
-# Impede que o Wi-Fi sobrescreva a rota
-ACTIVE_WIFI=$(nmcli -t -f DEVICE,TYPE,STATE dev | awk -F: '$2=="wifi" && $3=="connected"{print $1}')
-if [ -n "$ACTIVE_WIFI" ]; then
-  sudo resolvectl default-route "$ACTIVE_WIFI" no
+# Feedback visual simples
+echo -n "[vpn-capes-up] Aguardando conexão"
+while ! ip link show tunsnx >/dev/null 2>&1; do
+  echo -n "."
+  sleep 1
+done
+echo " OK"
+
+# Reinicia dock APENAS ao subir VPN
+if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] && gnome-extensions list | grep -q "$EXT_ID"; then
+  gnome-extensions disable "$EXT_ID" 2>/dev/null || true
+  sleep 1
+  gnome-extensions enable "$EXT_ID" 2>/dev/null || true
 fi
 
-echo "[vpn-capes-up] Abrindo portal da CAPES..."
-firefox "https://acessovpn.capes.gov.br" >/dev/null 2>&1 &
+echo "[vpn-capes-up] Abrindo portal da CAPES (Firefox perfil VPN)..."
+firefox -P vpn --no-remote "$PORTAL_URL" >/dev/null 2>&1 &
 
-echo "[vpn-capes-up] Faça login no portal, selecione o certificado e clique em Conectar."
+echo "[vpn-capes-up] Faça login no portal. A VPN será configurada automaticamente."

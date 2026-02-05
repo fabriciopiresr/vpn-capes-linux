@@ -59,9 +59,11 @@ install_vpn() {
   sudo cp scripts/detect-cert.sh "$DETECT_CERT"
   sudo chmod +x "$DETECT_CERT"
 
+  echo "[INFO] Instalando watcher vpn-capes-watch.sh..."
+  sudo install -m 755 scripts/vpn-capes-watch.sh /usr/local/bin/vpn-capes-watch.sh
+
   echo "[INFO] Criando diretório de configuração de DNS..."
   sudo mkdir -p "$DNS_CONF_DIR"
-
   echo "[INFO] Instalando chroot SNX (pode demorar)..."
   sudo "$VPN_SCRIPT" -i --vpn=acessovpn.capes.gov.br || true
 
