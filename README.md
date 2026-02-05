@@ -66,6 +66,37 @@ Faça login (se solicitado)
 
 Clique em Connect
 
+## ⚙️ Funcionamento automático da conexão
+
+Após iniciar a VPN com `vpn-capes-up`, o script:
+
+- Inicia o serviço do Check Point (SNX)
+- Abre o portal da CAPES no navegador
+- Aguarda o usuário autenticar
+- Detecta automaticamente a criação do túnel (`tunsnx`)
+- Aplica DNS e rota padrão no momento correto
+
+Isso elimina erros comuns como:
+- “conecta mas não navega”
+- falha ao aplicar DNS
+- necessidade de executar o comando duas vezes
+
+```md
+## 🌐 Navegador para autenticação
+
+O portal da VPN CAPES **não é compatível com todos os navegadores**.
+
+Este projeto utiliza automaticamente:
+- **Firefox oficial**
+- com **perfil dedicado** apenas para autenticação
+
+Isso garante:
+- compatibilidade total com o portal
+- isolamento do navegador principal do usuário
+- fechamento automático ao desconectar
+
+Navegadores alternativos (forks do Firefox/Chromium) podem não funcionar corretamente.
+
 🔌 Como desconectar
 bash
 Copiar código
@@ -77,6 +108,18 @@ Encerrar o SNX
 Parar o chrootvpn
 
 Restaurar DNS e rotas originais do sistema
+
+## 📝 Logs e diagnóstico
+
+O projeto gera automaticamente um arquivo de log para facilitar diagnóstico:
+
+~/.local/share/vpn-capes/vpn.log
+
+Para acompanhar em tempo real:
+
+```bash
+tail -f ~/.local/share/vpn-capes/vpn.log
+
 
 🖥️ Interface gráfica (GUI)
 Para abrir a interface gráfica:
